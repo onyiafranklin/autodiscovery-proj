@@ -126,14 +126,14 @@ resource "aws_elb" "elb_nexus" {
 }
 
 # Create Route 53 record for bastion host
-data "aws_route53_zone" "team2-acp-zone" {
+data "aws_route53_zone" "acp-zone" {
   name         = var.domain
   private_zone = false
 }
 
 # Create Route 53 record for nexus server
 resource "aws_route53_record" "nexus-record" {
-  zone_id = data.aws_route53_zone.team2-acp-zone.zone_id
+  zone_id = data.aws_route53_zone.acp-zone.zone_id
   name    = "nexus.${var.domain}"
   type    = "A"
   alias {
@@ -143,17 +143,17 @@ resource "aws_route53_record" "nexus-record" {
   }
 }
 
-resource "null_resource" "update_jenkins" {
-  depends_on = [ aws_instance.nexus ]
-  provisioner "local-exec" {
-    command = <<EOF
-#!/bin/bash
-sudo cat <<EOT>> /etc/docker/daemon.json
-{
-  "insecure-registries" : ["${aws_instance.nexus.public_ip}:8085"]
-}
-EOT
-EOF
-    interpreter = ["bash", "-c"]
-  }
-}
+# resource "null_resource" "update_jenkins" {
+#   depends_on = [ aws_instance.nexus ]
+#   provisioner "local-exec" {
+#     command = <<EOF
+# #!/bin/bash
+# sudo cat <<EOT>> /etc/docker/daemon.json
+# {
+#   "insecure-registries" : ["${aws_instance.nexus.public_ip}:8085"]
+# }
+# EOT
+# EOF
+#     interpreter = ["bash", "-c"]
+#   }
+# }

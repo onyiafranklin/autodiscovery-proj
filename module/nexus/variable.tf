@@ -1,0 +1,11 @@
+variable "subnet-id" {}
+variable "keypair" {}
+variable "name" {}
+variable "vpc" {}
+variable "baston-sg" {}
+variable "domain" {}
+variable "subnet1_id" {}
+variable "subnet2_id" {}
+variable "acm_certificate_arn" {}
+variable "nr-key" {}
+ variable "nr-id" {}

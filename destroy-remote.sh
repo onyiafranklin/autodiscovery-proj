@@ -6,10 +6,10 @@ BUCKET_NAME="bucket-pet-adoption"
 AWS_REGION="eu-west-2"
 PROFILE="bukky_int"
 
-# # destroy vault and jenkins server
-# cd ./vault-jenkins
-# terraform destroy -auto-approve
-# terraform output
+# destroy vault and jenkins server
+cd ./vault-jenkins
+terraform destroy -auto-approve
+terraform output
 
 # Function to handle errors
 handle_error() {
