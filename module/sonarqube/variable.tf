@@ -1,0 +1,10 @@
+variable "key" {}
+variable "name" {}
+variable "subnet_id" {}
+variable "bastion" {}
+variable "vpc-id" {}
+variable "domain" {}
+variable "public_subnets" {}
+variable "acm_certificate_arn" {}
+variable "nr-key" {}
+variable "nr-id" {}
