@@ -33,6 +33,40 @@ module "nexus" {
 
  
 }
+module "prod-env" {
+  source       = "./module/prod-env"
+  name         = local.name
+  vpc-id       = module.vpc.vpc_id
+  bastion      = module.bastion.bastion-sg
+  key-name     = module.vpc.public_key
+  pri-subnet1  = module.vpc.pri_sub1_id
+  pri-subnet2  = module.vpc.pri_sub2_id
+  pub-subnet1  = module.vpc.pub_sub1_id
+  pub-subnet2  = module.vpc.pub_sub2_id
+  acm-cert-arn = data.aws_acm_certificate.acm-cert.arn
+  domain       = var.domain
+  nexus-ip     = module.nexus.nexus_ip
+  nr-key       = var.nr-key
+  nr-acct-id   = var.nr-id  
+  ansible =  ""
+}
+module "stage-env" {
+  source       = "./module/stage-env"
+  name         = local.name
+  vpc-id       = module.vpc.vpc_id
+  bastion      = module.bastion.bastion-sg
+  key-name     = module.vpc.public_key
+  pri-subnet1  = module.vpc.pri_sub1_id
+  pri-subnet2  = module.vpc.pri_sub2_id
+  pub-subnet1  = module.vpc.pub_sub1_id
+  pub-subnet2  = module.vpc.pub_sub2_id
+  acm-cert-arn = data.aws_acm_certificate.acm-cert.arn
+  domain       = var.domain
+  nexus-ip     = module.nexus.nexus_ip
+  nr-key       = var.nr-key
+  nr-acct-id   = var.nr-id  
+  ansible =  ""
+}
  
 module "sonarqube" {
   source              = "./module/sonarqube"
@@ -47,16 +81,16 @@ module "sonarqube" {
     nr-key              = var.nr-key
     nr-id               = var.nr-id
 }
-# module "database" {
-#   source    = "./module/database"
-#   name      = local.name
-#   pri-sub-1 = module.vpc.pri_sub1_id
-#   pri-sub-2 = module.vpc.pri_sub2_id
-#   bastion   = module.bastion.bastion-sg
-#   vpc-id    = module.vpc.vpc_id
-#   stage-sg  = ""
-#   prod-sg   = ""
-# }
+module "database" {
+  source    = "./module/database"
+  name      = local.name
+  pri-sub-1 = module.vpc.pri_sub1_id
+  pri-sub-2 = module.vpc.pri_sub2_id
+  bastion   = module.bastion.bastion-sg
+  vpc-id    = module.vpc.vpc_id
+  stage-sg  = module.stage-env.stage-sg
+  prod-sg   = module.prod-env.prod-sg
+}
 
 
 data "aws_acm_certificate" "acm-cert" {
