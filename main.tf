@@ -91,6 +91,21 @@ module "database" {
   stage-sg  = module.stage-env.stage-sg
   prod-sg   = module.prod-env.prod-sg
 }
+module "ansible" {
+  source    = "./module/ansible"
+  name      = local.name
+  keypair   = module.vpc.public_key
+  subnet_id = module.vpc.pri_sub1_id
+  vpc       = module.vpc.vpc_id
+  bastion   = module.bastion.bastion-sg
+  private-key = module.vpc.private_key
+  deployment = "./module/ansible/deployment.yml" # Path to the deployment file
+  prod-bashscript = "./module/ansible/prod-bashscript.sh" # Path to the prod bash script
+  stage-bashscript = "./module/ansible/stage-bashscript.sh" # Path to the stage bash script
+  nexus-ip = module.nexus.nexus_ip
+  nr-key = var.nr-key
+  nr-acc-id = var.nr-id
+}
 
 
 data "aws_acm_certificate" "acm-cert" {
