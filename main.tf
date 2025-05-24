@@ -48,7 +48,7 @@ module "prod-env" {
   nexus-ip     = module.nexus.nexus_ip
   nr-key       = var.nr-key
   nr-acct-id   = var.nr-id  
-  ansible =  ""
+  ansible =  module.ansible.ansible_sg
 }
 module "stage-env" {
   source       = "./module/stage-env"
@@ -65,7 +65,7 @@ module "stage-env" {
   nexus-ip     = module.nexus.nexus_ip
   nr-key       = var.nr-key
   nr-acct-id   = var.nr-id  
-  ansible =  ""
+  ansible =  module.ansible.ansible_sg
 }
  
 module "sonarqube" {

@@ -1,12 +1,12 @@
 variable "domain" {
   description = "The domain name for the project"
   type        = string
-  default     = "set30.space"
+  default     = "edenboutique.space"
 }
 variable "nr-key" {
-  default     = "NRAK-E9VFI69JL0LLB10A7E6CS101FQ6"
+  default     = "NRAK-6OWN0Q9OYO9Q66F73NFSQ33JXEC"
 }
 variable "nr-id" {
-  default     = 6360298
+  default     = 6496342
 }
 
