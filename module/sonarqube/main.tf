@@ -24,7 +24,7 @@ resource "aws_instance" "sonarqube-server" {
     volume_type = "gp3" # General Purpose SSD (recommended)
     encrypted   = true  # Enable encryption (best practice)
   }
-  user_data = "local.userdata"
+  user_data = local.userdata
   tags = {
     Name = "${var.name}-sonarqube-server"
   }
