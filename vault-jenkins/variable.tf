@@ -1,3 +1,3 @@
 variable "domain" {
-  default = "set30.space"
+  default = "edenboutique.space"
 }
