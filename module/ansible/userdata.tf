@@ -36,9 +36,9 @@ sudo chown -R ec2-user:ec2-user /home/ec2-user/.ssh/id_rsa
 sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
 # Copying our files to ansible server from our local machine
-sudo tee /etc/ansible/deployment.yml < "${file(var.deployment)}" > /dev/null
-sudo tee /etc/ansible/prod-bashscript.sh < "${file(var.prod-bashscript)}" > /dev/null
-sudo tee /etc/ansible/stage-bashscript.sh < "${file(var.stage-bashscript)}" > /dev/null
+sudo echo "${file(var.deployment)}" >> /etc/ansible/deployment.yml
+sudo echo "${file(var.prod-bashscript)}" >> /etc/ansible/prod-bashscript.sh
+sudo echo "${file(var.stage-bashscript)}" >> /etc/ansible/stage-bashscript.sh
 sudo bash -c 'echo "NEXUS_IP: ${var.nexus-ip}:8085" > /etc/ansible/ansible_vars_file.yml'
 sudo chown -R ec2-user:ec2-user /etc/ansible
 sudo chmod 755 /etc/ansible/prod-bashscript.sh
