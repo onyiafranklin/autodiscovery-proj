@@ -5,7 +5,8 @@ provider "aws" {
 }
 provider "vault" {
   address = "https://vault.edenboutique.space"
-  token   = "s.WUAxFjvGoY8K13siPjI4B4Jm"
+  token   = "s.2do1ImckleJFcEpNSbSRJTqt"
+
 }
 
 terraform {
