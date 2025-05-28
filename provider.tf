@@ -5,7 +5,7 @@ provider "aws" {
 }
 provider "vault" {
   address = "https://vault.edenboutique.space"
-  token   = "s.2do1ImckleJFcEpNSbSRJTqt"
+  token   = "s.HEv8RqXswst6nXZdszl0DQoX"
 
 }
 
