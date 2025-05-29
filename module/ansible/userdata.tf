@@ -39,7 +39,7 @@ sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
 
 # pulling the playbooks folder from s3 bucket
-sudo aws s3 cp s3://${var.s3Bucket}/ansible/playbooks /etc/ansible --recursive
+sudo aws s3 cp s3://${var.s3Bucket}/ansible /etc/ansible --recursive
 
 
 sleep 10s
