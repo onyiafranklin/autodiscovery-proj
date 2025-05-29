@@ -35,10 +35,6 @@ sudo echo "${var.private-key}" > /home/ec2-user/.ssh/id_rsa
 sudo chown -R ec2-user:ec2-user /home/ec2-user/.ssh/id_rsa
 sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
-# Copying our files to ansible server from our local machine
-# sudo echo "${file(var.deployment)}" >> /etc/ansible/deployment.yml
-# sudo echo "${file(var.prod-bashscript)}" >> /etc/ansible/prod-bashscript.sh
-# sudo echo "${file(var.stage-bashscript)}" >> /etc/ansible/stage-bashscript.sh
 
 
 
