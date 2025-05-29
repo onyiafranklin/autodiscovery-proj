@@ -35,12 +35,13 @@ sudo echo "${var.private-key}" > /home/ec2-user/.ssh/id_rsa
 sudo chown -R ec2-user:ec2-user /home/ec2-user/.ssh/id_rsa
 sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
+sudo mkdir -p /etc/ansible
 
 
 
 # pulling the playbooks folder from s3 bucket
 sudo aws s3 cp s3://${var.s3Bucket}/ansible /etc/ansible --recursive
-
+sudo chmod +x /etc/ansible/*.sh
 
 sleep 10s
 

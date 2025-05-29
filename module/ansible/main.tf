@@ -34,6 +34,7 @@ resource "null_resource" "copy_ansible_playbooks" {
 resource "aws_instance" "ansible-server" {
   ami                    = data.aws_ami.redhat.id #rehat 
   instance_type          = "t2.medium"
+  iam_instance_profile= aws_iam_instance_profile.s3-bucket-instance-profile.name
   vpc_security_group_ids = [aws_security_group.ansible-sg.id]
   key_name               = var.keypair
   subnet_id              = var.subnet_id
@@ -98,9 +99,31 @@ resource "aws_iam_group_policy_attachment" "ansible-policy" {
 
 
 
-# Attach AmazonS3FullAccess to the same group (corrected)
-resource "aws_iam_group_policy_attachment" "ansible-s3-policy" {
-  group      = aws_iam_group.ansible-group.name
+# Create IAM role for ansible server
+resource "aws_iam_role" "s3-bucket-role" {
+  name = "${var.name}-ansible-bucket-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ansible-bucket-role-attachment" {
+  role       = aws_iam_role.s3-bucket-role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+# Attach the role to the instance
+resource "aws_iam_instance_profile" "s3-bucket-instance-profile" {
+  name = "${var.name}-s3-bucket-instance-profile"
+  role = aws_iam_role.s3-bucket-role.name
 }
 
