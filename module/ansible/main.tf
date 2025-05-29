@@ -24,7 +24,7 @@ resource "time_sleep" "wait_for_ansible" {
 resource "null_resource" "copy_ansible_playbooks" {
   provisioner "local-exec" {
     command = <<EOT
-      aws s3 cp --recursive ${path.module}/playbooks/ s3://${var.s3Bucket}/ansible/scripts/
+      aws s3 cp --recursive ${path.module}/scripts/ s3://${var.s3Bucket}/ansible/
     EOT
   }
   depends_on = [time_sleep.wait_for_ansible]
