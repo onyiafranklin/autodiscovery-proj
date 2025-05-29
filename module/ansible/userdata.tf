@@ -52,8 +52,11 @@ sudo chmod 755 /etc/ansible/stage-bashscript.sh
 
 # Creating cron job using our bash script
 
-echo "* * * * * ec2-user /bin/sh /etc/ansible/prod-bashscript.sh" | sudo tee /etc/crontab
-echo "* * * * * ec2-user /bin/sh /etc/ansible/stage-bashscript.sh" | sudo tee -a /etc/crontab
+# echo "* * * * * ec2-user /bin/sh /etc/ansible/prod-bashscript.sh" | sudo tee /etc/crontab
+# echo "* * * * * ec2-user /bin/sh /etc/ansible/stage-bashscript.sh" | sudo tee -a /etc/crontab
+
+echo "* * * * * ec2-user /bin/sh /etc/ansible/prod-bashscript.sh >> /var/log/prod-script.log 2>&1" | sudo tee /etc/crontab
+echo "* * * * * ec2-user /bin/sh /etc/ansible/stage-bashscript.sh >> /var/log/stage-script.log 2>&1" | sudo tee -a /etc/crontab
 
 # Install New Relic
 curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY="${var.nr-key}" NEW_RELIC_ACCOUNT_ID="${var.nr-acc-id}" NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y
