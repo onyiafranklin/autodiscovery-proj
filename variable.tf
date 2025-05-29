@@ -9,4 +9,6 @@ variable "nr-key" {
 variable "nr-id" {
   default     = 6496342
 }
-
+variable "s3Bucket" {
+  default = "bucket-pet-adoption"
+}

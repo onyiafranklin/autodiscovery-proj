@@ -15,7 +15,20 @@ data "aws_ami" "redhat" {
     values = ["x86_64"]
   }
 }
-
+# create a time sleep resource to wait for the ansible server to be up and running
+resource "time_sleep" "wait_for_ansible" {
+  depends_on = [aws_instance.ansible-server]
+  create_duration = "15s"
+}
+# null resurce to copy the ansible playbooks folder into the s3 bucket
+resource "null_resource" "copy_ansible_playbooks" {
+  provisioner "local-exec" {
+    command = <<EOT
+      aws s3 cp --recursive ${path.module}/playbooks/ s3://${var.s3Bucket}/ansible/scripts/
+    EOT
+  }
+  depends_on = [time_sleep.wait_for_ansible]
+}
 
 # Create Ansible Server
 resource "aws_instance" "ansible-server" {
