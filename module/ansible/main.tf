@@ -95,3 +95,12 @@ resource "aws_iam_group_policy_attachment" "ansible-policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
   group      = aws_iam_group.ansible-group.name
 }
+
+
+
+# Attach AmazonS3FullAccess to the same group (corrected)
+resource "aws_iam_group_policy_attachment" "ansible-s3-policy" {
+  group      = aws_iam_group.ansible-group.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
