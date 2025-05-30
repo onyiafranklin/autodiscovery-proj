@@ -38,7 +38,7 @@ find_ips() {
 
 # Update the inventory files
 update_inventory() {
-    echo "[stage_webservers]" > "$INVENTORY_FILE" 
+    echo "[webservers]" > "$INVENTORY_FILE" 
     while IFS= read -r instance; do
         if [ -z "$instance" ]; then
             continue

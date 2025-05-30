@@ -39,7 +39,7 @@ sudo mkdir -p /etc/ansible
 
 
 
-# pulling the playbooks folder from s3 bucket
+# pulling the ansible scripts and playbook folder from s3 bucket
 sudo aws s3 cp s3://${var.s3Bucket}/ansible /etc/ansible --recursive
 sudo chmod +x /etc/ansible/*.sh
 
