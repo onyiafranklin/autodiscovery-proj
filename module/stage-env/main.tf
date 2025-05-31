@@ -104,7 +104,7 @@ resource "aws_lb" "stage_LB" {
   name                       = "${var.name}-stage-LB"
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.stage-sg.id]
+  security_groups            = [aws_security_group.stage-elb-sg.id]
   subnets                    = [var.pub-subnet1, var.pub-subnet2]
   tags = {
     Name = "${var.name}-stage-LB"
