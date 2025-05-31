@@ -35,18 +35,26 @@ sudo echo "${var.private-key}" > /home/ec2-user/.ssh/id_rsa
 sudo chown -R ec2-user:ec2-user /home/ec2-user/.ssh/id_rsa
 sudo chmod 400 /home/ec2-user/.ssh/id_rsa
 
-# Copying our files to ansible server from our local machine
-sudo echo "${file(var.deployment)}" >> /etc/ansible/deployment.yml
-sudo echo "${file(var.prod-bashscript)}" >> /etc/ansible/prod-bashscript.sh
-sudo echo "${file(var.stage-bashscript)}" >> /etc/ansible/stage-bashscript.sh
+sudo mkdir -p /etc/ansible
+
+
+
+# pulling the ansible scripts and playbook folder from s3 bucket
+sudo aws s3 cp s3://${var.s3Bucket}/ansible /etc/ansible --recursive
+sudo chmod +x /etc/ansible/*.sh
+
+sleep 10s
+
 sudo bash -c 'echo "NEXUS_IP: ${var.nexus-ip}:8085" > /etc/ansible/ansible_vars_file.yml'
 sudo chown -R ec2-user:ec2-user /etc/ansible
 sudo chmod 755 /etc/ansible/prod-bashscript.sh
 sudo chmod 755 /etc/ansible/stage-bashscript.sh
 
 # Creating cron job using our bash script
-echo "* * * * * ec2-user sh /etc/ansible/prod-bashscript.sh" > /etc/crontab
-echo "* * * * * ec2-user sh /etc/ansible/stage-bashscript.sh" >> /etc/crontab
+
+echo "* * * * * ec2-user /bin/sh /etc/ansible/prod-bashscript.sh" | sudo tee /etc/crontab
+echo "* * * * * ec2-user /bin/sh /etc/ansible/stage-bashscript.sh" | sudo tee -a /etc/crontab
+
 
 # Install New Relic
 curl -Ls https://download.newrelic.com/install/newrelic-cli/scripts/install.sh | bash && sudo NEW_RELIC_API_KEY="${var.nr-key}" NEW_RELIC_ACCOUNT_ID="${var.nr-acc-id}" NEW_RELIC_REGION=EU /usr/local/bin/newrelic install -y
