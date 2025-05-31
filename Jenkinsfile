@@ -10,7 +10,7 @@ pipeline {
         cron('H 0 * * *') // Runs every day at midnight
     }
     environment {
-        SLACKCHANNEL = 'Ebuka Onyia'
+        SLACKCHANNEL = 'D08B6QQ2T50' //MY CHANNEL ID
         SLACKCREDENTIALS = credentials('slack')
     }
     
