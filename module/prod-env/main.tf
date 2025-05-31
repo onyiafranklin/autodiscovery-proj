@@ -104,7 +104,7 @@ resource "aws_lb" "prod_LB" {
   name                       = "${var.name}-prod-LB"
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.prod-sg.id]
+  security_groups            = [aws_security_group.prod-elb-sg.id]
   subnets                    = [var.pub-subnet1, var.pub-subnet2]
   tags = {
     Name = "${var.name}-prod-LB"
