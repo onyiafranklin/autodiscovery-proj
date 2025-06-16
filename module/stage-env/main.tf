@@ -17,6 +17,7 @@ resource "aws_security_group" "stage-sg" {
     to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    # security_groups = [aws_security_group.stage-elb-sg.id]
   }
   egress {
     description = "Allow all outbound traffic"
@@ -158,9 +159,14 @@ resource "aws_lb_listener" "stage_load_balancer_listener_http" {
   load_balancer_arn = aws_lb.stage_LB.arn
   port              = "80"
   protocol          = "HTTP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.stage-target-group.arn
+   default_action {
+    type = "redirect"
+
+    redirect {
+      port        = 443
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 # Create load balance listener for https
